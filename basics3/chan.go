@@ -4,26 +4,36 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"time"
+)
 
 func main() {
-	/** Alternative ways to declare variables **/
-	//var messages chan string
-	//messages = make(chan string)
-
-	//var messages chan string = make(chan string)
-
 	messages := make(chan string) // Channels are unbuffered by default.
+	var wg sync.WaitGroup
+	var counter = 0
 
-	// Go Routine + Anonymous function (Closures)
-	go func() {
+	go func(wg *sync.WaitGroup) {
 		for {
 			select {
 			case msg := <-messages:
 				fmt.Println(msg)
+				wg.Done()
 			}
 		}
-	}()
+	}(&wg)
 
-	messages <- "ping"
+	for i := range time.Tick(1 * time.Second) {
+		messages <- fmt.Sprintf("ping. %v", i)
+		wg.Add(1)
+		counter++
+
+		if counter == 5 {
+			break
+		}
+	}
+
+	wg.Wait()
 }

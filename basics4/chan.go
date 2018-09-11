@@ -1,19 +1,27 @@
-// Example demonstrates buffered channels that allow receiver not to be set when message is sent.
+// Example demonstrates specifying send/receive channels in parameter.
+//  This allows for enhanced type safety in functional programming.
 
 package main
 
 import "fmt"
 
+func send(messages chan<- string, msg string) {
+	messages <- msg
+}
+
+func receive(messages <-chan string) {
+	for {
+		select {
+		case msg := <-messages:
+			fmt.Println(msg)
+		}
+	}
+}
+
 func main() {
-	/** Alternative ways to declare variables **/
-	//var messages chan string
-	//messages = make(chan string)
+	messages := make(chan string) // Explicitly declare buffer size of channel.
 
-	//var messages chan string = make(chan string)
-
-	messages := make(chan string, 1) // Explicitly declare buffer size of channel.
-	messages <- "ping"
-
-	msg := <-messages
-	fmt.Println(msg)
+	go receive(messages)
+	send(messages, "hello")
+	fmt.Scanln()
 }

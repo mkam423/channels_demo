@@ -1,5 +1,5 @@
 // Example demonstrates unbuffered channels.
-//  Example will not work b/c receiver is not set when message is sent.
+//  Example will NOT work b/c receiver is not set when message is sent.
 
 package main
 
