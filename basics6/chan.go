@@ -1,5 +1,5 @@
-// Example demonstrates specifying send/receive channels in parameter.
-//  This allows for enhanced type safety in functional programming.
+// Example demonstrates closing channels.
+//  Channels are not usually closed, but if they are, it is done by the sender.
 
 package main
 
@@ -7,12 +7,18 @@ import "fmt"
 
 func send(messages chan<- string, msg string) {
 	messages <- msg
+	close(messages)
 }
 
 func receive(messages <-chan string) {
 	for {
 		select {
-		case msg := <-messages:
+		case msg, ok := <-messages:
+			if !ok {
+				fmt.Println("Channel closed")
+				return
+			}
+
 			fmt.Println(msg)
 		}
 	}
