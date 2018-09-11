@@ -1,4 +1,6 @@
-// Example sets message receiver to be ready before message is sent.
+// Example demonstrates channels acting as pipes pipes between concurrent goroutines
+//  Receiver is setup before message is sent.
+//  Example executes successfully.
 
 package main
 

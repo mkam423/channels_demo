@@ -1,5 +1,7 @@
-// Example will work b/c channels act as pipes between concurrent goroutines
+// Example demonstrates channels acting as pipes pipes between concurrent goroutines
 //  Ping message is blocked from sending until there is a receiving end of the channel.
+//  Example excecutes successfully.
+
 package main
 
 import "fmt"
