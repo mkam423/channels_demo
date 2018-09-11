@@ -1,6 +1,6 @@
-// Example sets message receiver to be ready before message is set.
+// Example sets message receiver to be ready before message is sent.
 
-package main2
+package main
 
 import "fmt"
 
